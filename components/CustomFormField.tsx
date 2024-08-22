@@ -29,11 +29,21 @@ interface CustomProps {
   renderSkeleton?: (field: any) => React.ReactNode;
 }
 
-const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
+const RenderField = ({
+  field,
+  props,
+  error,
+}: {
+  field: any;
+  props: CustomProps;
+  error:any
+}) => {
   switch (props.fieldType) {
     case FormFieldType.INPUT:
       return (
-        <div className="flex rounded-md border border-dark-500 bg-dark-400">
+        <div
+          className={`flex rounded-md border border-dark-500 bg-dark-400 ${error && "border-red-500"}`}
+        >
           {props.iconSrc && (
             <Image
               src={props.iconSrc}
@@ -60,7 +70,7 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
             defaultCountry="NG"
             placeholder={props.placeholder}
             international
-              countryCallingCodeEditable={false}
+            countryCallingCodeEditable={false}
             withCountryCallingCode
             {...field}
             value={field.value as E164Number | undefined}
@@ -81,12 +91,12 @@ const CustomFormField = (props: CustomProps) => {
     <FormField
       control={control}
       name={name}
-      render={({ field }) => (
+      render={({ field, fieldState: { error } }) => (
         <FormItem className="flex-1">
           {fieldType !== FormFieldType.CHECKBOX && label && (
             <FormLabel>{label}</FormLabel>
           )}
-          <RenderField field={field} props={props} />
+          <RenderField field={field} props={props} error={error} />
           <FormMessage className="shad-error" />
         </FormItem>
       )}
