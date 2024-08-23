@@ -15,6 +15,8 @@ import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { Select, SelectContent, SelectTrigger, SelectValue } from "./ui/select";
+import { Textarea } from './ui/textarea';
 
 interface CustomProps {
   control: Control<any>;
@@ -66,6 +68,17 @@ const RenderField = ({
           </FormControl>
         </div>
       );
+    case FormFieldType.TEXTAREA:
+      return (
+        <FormControl>
+          <Textarea
+            placeholder={props.placeholder}
+            {...field}
+            className="shad-textArea"
+            disabled={props.disabled}
+          />
+        </FormControl>
+      );
     case FormFieldType.PHONE_INPUT:
       return (
         // <div className="flex rounded-md border border-dark-500 bg-dark-400">
@@ -112,14 +125,28 @@ const RenderField = ({
           </FormControl>
         </div>
       );
+    case FormFieldType.SELECT:
+      return (
+        <FormControl>
+          <Select onValueChange={field.onChange} defaultValue={field.value}>
+            <FormControl>
+              <SelectTrigger className="shad-select-trigger">
+                <SelectValue placeholder={props.placeholder} />
+              </SelectTrigger>
+            </FormControl>
+            <SelectContent className="shad-select-content">
+              {props.children}
+            </SelectContent>
+          </Select>
+        </FormControl>
+      );
     case FormFieldType.SKELETON:
       return props.renderSkeleton ? props.renderSkeleton(field) : null;
   }
 };
 
 const CustomFormField = (props: CustomProps) => {
-  const { control, fieldType, name, label} =
-    props;
+  const { control, fieldType, name, label } = props;
 
   return (
     <FormField
