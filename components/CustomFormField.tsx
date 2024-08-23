@@ -1,4 +1,4 @@
-import React from "react";
+import { E164Number } from "libphonenumber-js/core";
 import {
   FormControl,
   FormDescription,
@@ -13,6 +13,8 @@ import { FormFieldType } from "./forms/PatientForm";
 import Image from "next/image";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
+import ReactDatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 interface CustomProps {
   control: Control<any>;
@@ -36,13 +38,15 @@ const RenderField = ({
 }: {
   field: any;
   props: CustomProps;
-  error:any
+  error: any;
 }) => {
   switch (props.fieldType) {
     case FormFieldType.INPUT:
       return (
         <div
-          className={`flex rounded-md border border-dark-500 bg-dark-400 ${error && "border-red-500"}`}
+          className={`flex rounded-md border border-dark-500 bg-dark-400 ${
+            error && "border-red-500"
+          }`}
         >
           {props.iconSrc && (
             <Image
@@ -75,16 +79,46 @@ const RenderField = ({
             {...field}
             value={field.value as E164Number | undefined}
             onChange={field.onChange}
-            className="input-phone"
+            className={` ${error && "!border !border-red-500"} input-phone`}
           />
         </FormControl>
         // </div>
       );
+    case FormFieldType.DATE_PICKER:
+      return (
+        <div
+          className={`${
+            error && "!border !border-red-500"
+          } flex rounded-md border border-dark-500 bg-dark-400`}
+        >
+          <Image
+            src="/assets/icons/calendar.svg"
+            height={24}
+            width={24}
+            alt="calender"
+            className="ml-2"
+          />
+
+          <FormControl>
+            <ReactDatePicker
+              showTimeSelect={props.showTimeSelect ?? false}
+              selected={field.value}
+              onChange={(date: Date) => field.onChange(date)}
+              timeInputLabel="Time:"
+              dateFormat={props.dateFormat ?? "MM/dd/yyyy"}
+              wrapperClassName="date-picker"
+              placeholderText={props.placeholder}
+            />
+          </FormControl>
+        </div>
+      );
+    case FormFieldType.SKELETON:
+      return props.renderSkeleton ? props.renderSkeleton(field) : null;
   }
 };
 
 const CustomFormField = (props: CustomProps) => {
-  const { control, fieldType, name, label, placeholder, iconAlt, iconSrc } =
+  const { control, fieldType, name, label} =
     props;
 
   return (
@@ -94,7 +128,7 @@ const CustomFormField = (props: CustomProps) => {
       render={({ field, fieldState: { error } }) => (
         <FormItem className="flex-1">
           {fieldType !== FormFieldType.CHECKBOX && label && (
-            <FormLabel>{label}</FormLabel>
+            <FormLabel className="text-[#ABB8C4]">{label}</FormLabel>
           )}
           <RenderField field={field} props={props} error={error} />
           <FormMessage className="shad-error" />
