@@ -79,7 +79,6 @@ const RegisterForm = ({ user }: { user: User }) => {
         privacyConsent: values.privacyConsent,
       };
       const newPatient = await registerPatient(patient);
-console.log(values, newPatient)
       if (newPatient) {
         router.push(`/patients/${user.$id}/new-appointment`);
       }
