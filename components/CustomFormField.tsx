@@ -47,9 +47,10 @@ const RenderField = ({
     case FormFieldType.INPUT:
       return (
         <div
-          className={`flex rounded-md border border-dark-500 bg-dark-400 ${
-            error && "border-red-500"
-          }`}
+        // {
+        //     // error && "border-red-500"
+        //   }
+          className={`flex rounded-md border border-dark-500 bg-dark-400 $`}
         >
           {props.iconSrc && (
             <Image
@@ -108,7 +109,8 @@ const RenderField = ({
             {...field}
             value={field.value as E164Number | undefined}
             onChange={field.onChange}
-            className={` ${error && "!border !border-red-500"} input-phone`}
+            // ${error && "!border !border-red-500"}
+            className={`input-phone`}
           />
         </FormControl>
         // </div>
