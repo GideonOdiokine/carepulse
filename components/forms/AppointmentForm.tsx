@@ -15,7 +15,7 @@ import { Form } from "../ui/form";
 import CustomFormField from "../CustomFormField";
 import { FormFieldType } from "./PatientForm";
 import { getAppointmentSchema } from "@/lib/validation";
-import { createAppointment } from '@/lib/actions/appointment.actions';
+import { createAppointment } from "@/lib/actions/appointment.actions";
 
 export const AppointmentForm = ({
   userId,
@@ -46,7 +46,9 @@ export const AppointmentForm = ({
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof AppointmentFormValidation>) => {
+  const onSubmit = async (
+    values: z.infer<typeof AppointmentFormValidation>
+  ) => {
     setIsLoading(true);
     let status;
     switch (type) {
@@ -62,23 +64,32 @@ export const AppointmentForm = ({
     }
 
     try {
-         if (type === "create" && patientId) {
-           const appointment = {
-             userId,
-             patient: patientId,
-             primaryPhysician: values.primaryPhysician,
-             schedule: new Date(values.schedule),
-             reason: values.reason!,
-             status: status as Status,
-             note: values.note,
-           };
+      if (type === "create" && patientId) {
+        console.log(patientId)
+        const appointment = {
+          userId,
+          patient: patientId,
+          primaryPhysician: values.primaryPhysician,
+          schedule: new Date(values.schedule),
+          reason: values.reason!,
+          status: status as Status,
+          note: values.note,
+        };
 
-           const newAppointment = await createAppointment(appointment);
-         }
+        const newAppointment = await createAppointment(appointment);
+
+        if (newAppointment) {
+          form.reset();
+          router.push(
+            `/patients/${userId}/new-appointment/success?appointmentId=${newAppointment.$id}`
+          );
+        }
+      }
     } catch (error) {
-
+        console.error(error)
+    }finally{
+        setIsLoading(false)
     }
-
   };
 
   let buttonLabel;
