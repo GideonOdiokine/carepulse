@@ -2,7 +2,7 @@
 
 CarePulse is a full-fledged medical application that provides an interactive platform for patients to make reservations with their desired doctors. Doctors can then choose to accept or reject these appointments.
 
-[Live Demo](https://the-care-pulse.vercel.app/)
+[Live Demo](https://carepulse-git-master-gideonodiokines-projects.vercel.app/)
 
 ## Features
 
