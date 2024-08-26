@@ -3,7 +3,7 @@ import { Montserrat } from "next/font/google";
 import "./globals.css";
 
 import { cn } from "@/lib/utils";
-import { ThemeProvider } from '@/components/theme-provider';
+import { ThemeProvider } from "@/components/theme-provider";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -15,6 +15,10 @@ const montserrat = Montserrat({
 export const metadata: Metadata = {
   title: "CarePulse",
   description: "A healthcare management system",
+  viewport: {
+    width: "width=device-width",
+    initialScale: 1.0,
+  },
 };
 
 export default function RootLayout({
@@ -24,10 +28,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <meta
+      {/* <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
-      />
+      /> */}
       <body
         className={cn(
           "min-h-screen bg-dark-300 font-mont antialiased",
