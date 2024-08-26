@@ -123,7 +123,7 @@ export const updateAppointment = async ({
     timeZone,
     appointment,
     type,
-}: UpdateAppointmentParams) => {
+}: any) => {
     try {
         // Update appointment to scheduled -> https://appwrite.io/docs/references/cloud/server-nodejs/databases#updateDocument
         const updatedAppointment = await databases.updateDocument(
