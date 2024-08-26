@@ -53,6 +53,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="data-table">
+        {/* <h2>Hello</h2> */}
       <Table className="shad-table">
         <TableHeader className=" bg-dark-200">
           {table.getHeaderGroups().map((headerGroup) => (
@@ -78,7 +79,7 @@ export function DataTable<TData, TValue>({
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
-                className="shad-table-row"
+                className="shad-table-row even:bg-[#1C2023]"
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
