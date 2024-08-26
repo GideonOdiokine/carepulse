@@ -258,7 +258,18 @@ body {
   }
 
   .shad-otp-slot {
-    @apply text-36-bold justify-center flex border border-dark-500 rounded-lg size-16 gap-4 !important;
+    @apply text-36-bold justify-center flex border border-dark-500 rounded-lg size-16 gap-4 text-[#D0D5DD];
+  }
+  .shad-gradient-shadow {
+    position: absolute;
+    top: -0.5rem;
+    right: -0.5rem;
+    bottom: -0.5rem;
+    left: -0.5rem;
+    background: linear-gradient(to right, #82dbf7, #b6f09c);
+    border-radius: 0.5rem;
+    opacity: 0.8;
+    filter: blur(20px);
   }
 
   .shad-alert-dialog {

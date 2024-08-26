@@ -6,16 +6,22 @@ import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+
 import { SelectItem } from "@/components/ui/select";
 import { Doctors } from "@/constants";
+import {
+  createAppointment,
+  updateAppointment,
+} from "@/lib/actions/appointment.actions";
+import { getAppointmentSchema } from "@/lib/validation";
 import { Appointment } from "@/types/appwrite.types";
+
 import "react-datepicker/dist/react-datepicker.css";
+
+import CustomFormField from "../CustomFormField";
 import SubmitButton from "../SubmitButton";
 import { Form } from "../ui/form";
-import CustomFormField from "../CustomFormField";
-import { FormFieldType } from "./PatientForm";
-import { getAppointmentSchema } from "@/lib/validation";
-import { createAppointment } from "@/lib/actions/appointment.actions";
+import { FormFieldType } from './PatientForm';
 
 export const AppointmentForm = ({
   userId,
@@ -38,11 +44,13 @@ export const AppointmentForm = ({
   const form = useForm<z.infer<typeof AppointmentFormValidation>>({
     resolver: zodResolver(AppointmentFormValidation),
     defaultValues: {
-      primaryPhysician: "",
-      schedule: new Date(),
-      reason: "",
-      note: "",
-      cancellationReason: "",
+      primaryPhysician: appointment ? appointment?.primaryPhysician : "",
+      schedule: appointment
+        ? new Date(appointment?.schedule!)
+        : new Date(Date.now()),
+      reason: appointment ? appointment.reason : "",
+      note: appointment?.note || "",
+      cancellationReason: appointment?.cancellationReason || "",
     },
   });
 
@@ -50,6 +58,7 @@ export const AppointmentForm = ({
     values: z.infer<typeof AppointmentFormValidation>
   ) => {
     setIsLoading(true);
+
     let status;
     switch (type) {
       case "schedule":
@@ -60,12 +69,10 @@ export const AppointmentForm = ({
         break;
       default:
         status = "pending";
-        break;
     }
 
     try {
       if (type === "create" && patientId) {
-        console.log(patientId)
         const appointment = {
           userId,
           patient: patientId,
@@ -84,28 +91,42 @@ export const AppointmentForm = ({
             `/patients/${userId}/new-appointment/success?appointmentId=${newAppointment.$id}`
           );
         }
+      } else {
+        const appointmentToUpdate = {
+          userId,
+          appointmentId: appointment?.$id!,
+          appointment: {
+            primaryPhysician: values.primaryPhysician,
+            schedule: new Date(values.schedule),
+            status: status as Status,
+            cancellationReason: values.cancellationReason,
+          },
+          type,
+        };
+
+        const updatedAppointment = await updateAppointment(appointmentToUpdate);
+
+        if (updatedAppointment) {
+          setOpen && setOpen(false);
+          form.reset();
+        }
       }
     } catch (error) {
-        console.error(error)
-    }finally{
-        setIsLoading(false)
+      console.log(error);
     }
+    setIsLoading(false);
   };
 
   let buttonLabel;
-
   switch (type) {
     case "cancel":
       buttonLabel = "Cancel Appointment";
-      break;
-    case "create":
-      buttonLabel = "Create Appointment";
       break;
     case "schedule":
       buttonLabel = "Schedule Appointment";
       break;
     default:
-      break;
+      buttonLabel = "Submit Apppointment";
   }
 
   return (
