@@ -9,7 +9,7 @@ const Home = ({ searchParams }: SearchParamProps) => {
 
   return (
     <div className="flex h-screen max-h-screen">
-      {/* {isAdmin && <PassKeyModal />} */}
+      {isAdmin && <PassKeyModal />}
 
       <section className="remove-scrollbar container py-10">
         <div className="sub-container max-w-[496px]">
