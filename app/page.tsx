@@ -9,9 +9,9 @@ const Home = ({ searchParams }: SearchParamProps) => {
 
   return (
     <div className="flex h-screen max-h-screen">
-      {isAdmin && <PassKeyModal />}
+      {/* {isAdmin && <PassKeyModal />} */}
 
-      <section className="remove-scrollbar container my-auto">
+      <section className="remove-scrollbar container py-10">
         <div className="sub-container max-w-[496px]">
           <Image
             src="/assets/icons/logo-full.svg"
@@ -23,8 +23,8 @@ const Home = ({ searchParams }: SearchParamProps) => {
 
           <PatientForm />
 
-          <div className="text-14-regular mt-20 flex justify-between">
-            <p className="justify-items-end text-dark-600 xl:text-left">
+          <div className="text-14-regular py-12 flex justify-between">
+            <p className="justify-items-end text-dark-600  xl:text-left">
               © 2024 CarePluse
             </p>
             <Link href="/?admin=true" className="text-green-500">
