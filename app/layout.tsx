@@ -1,9 +1,16 @@
-import type { Metadata } from "next";
+import type { Metadata,Viewport } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
 
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
+
+ 
+// export const viewport: Viewport = {
+ 
+//   // Also supported by less commonly used
+//   // interactiveWidget: 'resizes-visual',
+// }
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -16,8 +23,10 @@ export const metadata: Metadata = {
   title: "CarePulse",
   description: "A healthcare management system",
   viewport: {
-    width: "width=device-width",
-    initialScale: 1.0,
+     width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
   },
 };
 
