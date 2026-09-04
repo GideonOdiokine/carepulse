@@ -47,6 +47,4 @@ CarePulse is a full-fledged medical application that provides an interactive pla
 
 This project is deployed on [Vercel](https://vercel.com/).
 
-## Acknowledgements
 
-- Inspired by Adrian Hajdin
